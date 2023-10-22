@@ -33,7 +33,7 @@ export default function Index() {
         label="Enter your location"
         value={search?.label}
         onChange={handleChange}
-        
+          
         
       />)}  />
       <Paper>
