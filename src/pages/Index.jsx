@@ -41,11 +41,11 @@ export default function Index() {
 
     const fixWeatherIcon = (imageIcon)=>{
       
-      if (correctWeather?.WeatherIcon<10) {
-        return "0"+correctWeather?.WeatherIcon ;
+      if (imageIcon<10) {
+        return "0"+imageIcon ;
       }
       else{
-        return correctWeather?.WeatherIcon
+        return imageIcon
       }
     }
 
@@ -71,20 +71,27 @@ export default function Index() {
         )}   
       />
       <Paper >
-        <Grid container>
+        <Grid container gap={1}>
           <Grid item xs={12} >
-            <Paper sx={{display:"flex",alignItems:"center",flexDirection:"column"}}>
+            <Paper sx={{display:"flex",alignItems:"center",flexDirection:"column" ,padding:"15px",justifyContent:"center",alignContent:"center",justifyItems:"center"}}>
               <Typography variant="h4" color="initial">{search?.label}</Typography>
-              <Box sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+              <Box sx={{display:"flex"}}>
                 <CardMedia component="img" sx={{width:"20vw"}} title={correctWeather?.WeatherText} image={imageGen(correctWeather?.WeatherIcon)} />
-                <Box>
+                <Box >
                   <Typography variant="h4" color="initial">{correctWeather?.Temperature?.Metric.Value} {correctWeather?.Temperature?.Metric.Unit}</Typography>
                   <Typography variant="h4" color="initial">{correctWeather?.WeatherText}</Typography>
                 </Box>
               </Box>
             </Paper>
           </Grid>
-          {fiveDaysForecast?.map((day)=><Grid item xs={2} key={day?.Date}><Paper></Paper></Grid> )}
+
+          {fiveDaysForecast?.map((day)=><Grid item xs={12} md={2} key={day?.Date}>
+            <Paper sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"10vh",padding:"15px"}} >
+            <CardMedia component="img" sx={{width:"50%"}} title={day?.Day?.IconPhrase} image={imageGen(day?.Day?.Icon)} />
+
+            <Typography variant="h5" color="initial">{day?.Temperature.Maximum.Value}/{day?.Temperature.Minimum.Value}</Typography>
+            </Paper>
+            </Grid> )}
 
         </Grid>
       </Paper>
