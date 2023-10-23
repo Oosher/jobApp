@@ -4,9 +4,9 @@ import axios from "axios"
 
 
 
-export const getAutoCompleatData = async()=>{
+export const getAutoCompleatData = async(userInput)=>{
     try{
-        const res = await axios.get("http://dataservice.accuweather.com/locations/v1/topcities/150?apikey=YArL1ICnb5lloH1sZGGsf9Zvmrjwpf0i");
+        const res = await axios.get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&q=${userInput}`);
 
         console.log(res);
 
@@ -25,11 +25,33 @@ export const getAutoCompleatData = async()=>{
 export const getCurrentWeather = async (countryKey) =>{
 
     try{
-        const res = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${countryKey}?apikey=YArL1ICnb5lloH1sZGGsf9Zvmrjwpf0i`);
+        const res = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${countryKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse`);
 
         return res.data;
     }
     catch(err){
+        console.log(err);
+    }
+
+
+}
+
+
+
+
+
+
+
+
+export const getFiveDaysForecast = async (locationKey) =>{
+
+    try{
+        const res = await axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&metric=true`);
+
+        return res?.data?.DailyForecasts;
+    }
+    catch(err){
+        
         console.log(err);
     }
 

@@ -1,44 +1,91 @@
 
 
-import { Autocomplete, Box, Container, Grid, Paper, TextField } from '@mui/material'
+import { Autocomplete, Box, Container, Grid, Paper, TextField, CardMedia, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { getAutoCompleatData, getCurrentWeather } from '../requstService/requstService'
+import { getAutoCompleatData, getCurrentWeather, getFiveDaysForecast } from '../requstService/requstService'
 
 export default function Index() {
 
-  const [search,setSearch] = useState({});
+  const [search,setSearch] = useState(null);
   const [locations , setLocations] = useState([]);
-  const [correntWeather,setCurrentWeather] = useState([])
-
-    useEffect(()=>{
-          getAutoCompleatData().then((res)=>setLocations(res?.data?.map((countryData,i)=>{return{key:i,label:countryData?.Country?.EnglishName+i,countryKey:countryData?.Key}}))); 
-    },[])
+  const [correctWeather,setCorrectWeather] = useState([])
+  const [fiveDaysForecast,setFiveDaysForecast] = useState([])
 
 
-    const handleChange = ({target})=>{
-      console.log(target.value);
-      setSearch(target.value)
-      getCurrentWeather(search?.countryKey).then((res)=>console.log(res));
-    } 
-    console.log(search);
-  return (
-    <Container sx={{width:"fit-content"}}>
-    <Autocomplete
+
+    const getAutocompleteFromUserInput = async ({target})=>{
+      if(target?.value?.length>1&&target?.value?.length<4){
+        const res = await getAutoCompleatData(target.value);
+        await setLocations(res?.data?.map((locationData)=>{return{label:locationData?.LocalizedName,locationKey:locationData?.Key}}))
+
+        setLocations((prev)=>prev.filter((locationData, i, self) => {
+          return self.findIndex((ld) => ld.label === locationData.label) === i;
+      }))
+      }
+    }
+  
+    const handleChange = ({target},newValue)=>{
     
-        sx={{width:"300px",marginTop:"4vh"}}
+      setSearch((prev)=>newValue?newValue:prev);
+
+      getCurrentWeather(newValue?.locationKey).then((res)=>setCorrectWeather(res[0])) 
+
+      getFiveDaysForecast(newValue?.locationKey).then((res)=>setFiveDaysForecast(res));
+      
+    } 
+
+
+    
+
+    console.log(fiveDaysForecast);
+
+    const fixWeatherIcon = (imageIcon)=>{
+      
+      if (correctWeather?.WeatherIcon<10) {
+        return "0"+correctWeather?.WeatherIcon ;
+      }
+      else{
+        return correctWeather?.WeatherIcon
+      }
+    }
+
+
+    const imageGen = (imageIcon)=> `https://developer.accuweather.com/sites/default/files/${ fixWeatherIcon(imageIcon)}-s.png`;
+    console.log(correctWeather); 
+  return (
+    <Container sx={{display:"flex",width:"80vw",marginTop:"4vh",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+    <Autocomplete
+        sx={{width:"300px",margin:"0 auto"}}
         id="search"
-        options={locations}
-        renderInput={(params)=>(<TextField {...params}
-        id="search"
-        label="Enter your location"
-        value={search?.label}
+        options={locations?locations:[]}
+        value={search}
+        getOptionLabel={(option)=>option.label}
         onChange={handleChange}
-          
-        
-      />)}  />
-      <Paper>
+        isOptionEqualToValue={(option,value)=>option.label===value.label}
+        renderInput={(params)=>(
+          <TextField {...params}
+          id="search"
+          label="Enter your location"
+          onChange={getAutocompleteFromUserInput}
+          />
+        )}   
+      />
+      <Paper >
         <Grid container>
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12} >
+            <Paper sx={{display:"flex",alignItems:"center",flexDirection:"column"}}>
+              <Typography variant="h4" color="initial">{search?.label}</Typography>
+              <Box sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+                <CardMedia component="img" sx={{width:"20vw"}} title={correctWeather?.WeatherText} image={imageGen(correctWeather?.WeatherIcon)} />
+                <Box>
+                  <Typography variant="h4" color="initial">{correctWeather?.Temperature?.Metric.Value} {correctWeather?.Temperature?.Metric.Unit}</Typography>
+                  <Typography variant="h4" color="initial">{correctWeather?.WeatherText}</Typography>
+                </Box>
+              </Box>
+            </Paper>
+          </Grid>
+          {fiveDaysForecast?.map((day)=><Grid item xs={2} key={day?.Date}><Paper></Paper></Grid> )}
+
         </Grid>
       </Paper>
     </Container>
