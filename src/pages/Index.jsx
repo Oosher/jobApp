@@ -21,7 +21,7 @@ export default function Index() {
       getCurrentWeather(search?.locationKey).then((res)=>setCurrentWeather(res?.[0])) 
 
       getFiveDaysForecast(search?.locationKey).then((res)=>setFiveDaysForecast(res));
-    },[])
+    },[search.locationKey])
 
     useEffect(()=>{
 
