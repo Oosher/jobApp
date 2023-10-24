@@ -1,6 +1,6 @@
 
 
-import { Autocomplete, Box, Container, Grid, Paper, TextField, CardMedia, Typography } from '@mui/material'
+import { Autocomplete, Box, Container, Grid, Paper, TextField, CardMedia, Typography, debounce } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { getAutoCompleatData, getCurrentWeather, getFiveDaysForecast } from '../requstService/requstService'
 
@@ -14,30 +14,38 @@ export default function Index() {
 
 
     const getAutocompleteFromUserInput = async ({target})=>{
-      if(target?.value?.length>1&&target?.value?.length<4){
-        const res = await getAutoCompleatData(target.value);
-        await setLocations(res?.data?.map((locationData)=>{return{label:locationData?.LocalizedName,locationKey:locationData?.Key}}))
-
-        setLocations((prev)=>prev.filter((locationData, i, self) => {
-          return self.findIndex((ld) => ld.label === locationData.label) === i;
-      }))
-      }
+      console.log(target.value.length);
+        if (target.value.length>0) {
+          const res = await getAutoCompleatData(target.value);
+          await setLocations(res?.data?.map((locationData)=>{return{label:locationData?.LocalizedName,locationKey:locationData?.Key}}))
+  
+          setLocations((prev)=>prev.filter((locationData, i, self) => {
+            return self.findIndex((ld) => ld.label === locationData.label) === i;
+        }))
+        }
+      
     }
   
+
+    const debouncedGetAutocompleteFromUserInput = debounce(getAutocompleteFromUserInput,300);
+
     const handleChange = ({target},newValue)=>{
     
       setSearch((prev)=>newValue?newValue:prev);
 
-      getCurrentWeather(newValue?.locationKey).then((res)=>setCorrectWeather(res[0])) 
+      getCurrentWeather(newValue?.locationKey).then((res)=>setCorrectWeather(res?.[0])) 
 
       getFiveDaysForecast(newValue?.locationKey).then((res)=>setFiveDaysForecast(res));
+    
+    
       
     } 
 
 
+ 
     
 
-    console.log(fiveDaysForecast);
+    
 
     const fixWeatherIcon = (imageIcon)=>{
       
@@ -51,7 +59,7 @@ export default function Index() {
 
 
     const imageGen = (imageIcon)=> `https://developer.accuweather.com/sites/default/files/${ fixWeatherIcon(imageIcon)}-s.png`;
-    console.log(correctWeather); 
+    
   return (
     <Container sx={{display:"flex",width:"80vw",marginTop:"4vh",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
     <Autocomplete
@@ -66,7 +74,7 @@ export default function Index() {
           <TextField {...params}
           id="search"
           label="Enter your location"
-          onChange={getAutocompleteFromUserInput}
+          onChange={debouncedGetAutocompleteFromUserInput}
           />
         )}   
       />
@@ -86,7 +94,7 @@ export default function Index() {
           </Grid>
 
           {fiveDaysForecast?.map((day)=><Grid item xs={12} md={2} key={day?.Date}>
-            <Paper sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"10vh",padding:"15px"}} >
+            <Paper sx={{display:"flex",justifyContent:"center",alignItems:"center", margin:"0 auto",height:"10vh",padding:"15px"}} >
             <CardMedia component="img" sx={{width:"50%"}} title={day?.Day?.IconPhrase} image={imageGen(day?.Day?.Icon)} />
 
             <Typography variant="h5" color="initial">{day?.Temperature.Maximum.Value}/{day?.Temperature.Minimum.Value}</Typography>
