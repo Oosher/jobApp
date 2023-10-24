@@ -2,13 +2,10 @@ import axios from "axios"
 
 
 
-
-
 export const getAutoCompleatData = async(userInput)=>{
     try{
         const res = await axios.get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&q=${userInput}`);
 
-        console.log(res);
 
         return res;
     }
