@@ -19,10 +19,17 @@ export default function Favorites() {
 
     }
 
+    
+
+    if (likedLocations?.length === 0) return<Container sx={{paddingTop:"20vh"}}> <Typography variant="h2" color="initial" textAlign="center" >There are no Liked Locations yet</Typography>
+                                        </Container>
+        
+    
+
     return (
-        <Container >
-            <Grid container justifyContent="center" alignItems="center" gap={1}  >
-                {likedLocations?.map((location)=><Grid item xs={12} sm={5} md={4} key={location.EpochTime}>   
+        <Container sx={{paddingTop:"3vh"}} >
+            <Grid container justifyContent="center" alignItems="center" spacing={{xs:0,sm:1,md:2}}  >
+                {likedLocations?.map((location)=><Grid item xs={12} sm={5} md={3} key={location.EpochTime}>   
                     <Paper>
                         <IconButton sx={{":hover":{color:"red"}}} onClick={()=>removeFromFavorites(location.name)}>
                             X

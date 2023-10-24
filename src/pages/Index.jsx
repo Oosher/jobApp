@@ -8,38 +8,20 @@ import { useLocationService } from '../providers/LocationProvider';
 import { removeLikedLocation, saveLikedLocationsToLocalStorage } from '../localStorageService/localStorageService';
 
 export default function Index() {
-  const defaultWeather = {
-    "LocalObservationDateTime": "2023-10-25T02:07:00+03:00",
-    "EpochTime": 1698188820,
-    "WeatherText": "Partly cloudy",
-    "WeatherIcon": 35,
-    "HasPrecipitation": false,
-    "PrecipitationType": null,
-    "IsDayTime": false,
-    "Temperature": {
-        "Metric": {
-            "Value": 24.3,
-            "Unit": "C",
-            "UnitType": 17
-        },
-        "Imperial": {
-            "Value": 76,
-            "Unit": "F",
-            "UnitType": 18
-        }
-    },
-    "MobileLink": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
-    "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"
-}
-  const [search,setSearch] = useState(null);
+  
+  const [search,setSearch] = useState({label:"Tel Aviv",locationKey:"215854"});
   const [locations , setLocations] = useState([]);
-  const [currentWeather,setCurrentWeather] = useState(defaultWeather);
+  const [currentWeather,setCurrentWeather] = useState({});
   const [fiveDaysForecast,setFiveDaysForecast] = useState([]);
   const [isFavorite,setIsFavorite] = useState(false);
-
+  console.log(search);
   const {likedLocations, updateLikedLocations,imageGen} = useLocationService();
   
+    useEffect(()=>{
+      getCurrentWeather(search?.locationKey).then((res)=>setCurrentWeather(res?.[0])) 
 
+      getFiveDaysForecast(search?.locationKey).then((res)=>setFiveDaysForecast(res));
+    },[])
 
     useEffect(()=>{
 
@@ -49,7 +31,6 @@ export default function Index() {
 
     },[likedLocations,search?.label]);
 
-    console.log(currentWeather);
 
     const getAutocompleteFromUserInput = async ({target})=>{
 
@@ -68,17 +49,19 @@ export default function Index() {
     const debouncedGetAutocompleteFromUserInput = debounce(getAutocompleteFromUserInput,300);
 
     const handleChange = ({target},newValue)=>{
+      
+      if (newValue) {
+      
     
-      setSearch((prev)=>newValue?newValue:prev);
+        setSearch((prev)=>newValue?newValue:prev);
 
-      getCurrentWeather(newValue?.locationKey).then((res)=>setCurrentWeather(res?.[0])) 
+        getCurrentWeather(newValue?.locationKey).then((res)=>setCurrentWeather(res?.[0])) 
 
-      getFiveDaysForecast(newValue?.locationKey).then((res)=>setFiveDaysForecast(res));
+        getFiveDaysForecast(newValue?.locationKey).then((res)=>setFiveDaysForecast(res));
+    }
       
     } 
-
-
-
+    
 
 
     const handleFavorite = async()=>{
