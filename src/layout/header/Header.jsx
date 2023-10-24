@@ -11,7 +11,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { Link } from 'react-router-dom';
 import ROUTS from '../../routes/Routs';
 import CloudIcon from '@mui/icons-material/Cloud';
-
+import "./header.css";
 export default function Header() {
 
 
@@ -23,17 +23,20 @@ export default function Header() {
         <Toolbar sx={{display:"flex",justifyContent:"space-between"}}>
           <Box sx={{display:"flex"}}>
             <IconButton component={Link} to={ROUTS.INDEX} sx={{borderRadius:"20px"}}>
-              <CloudIcon sx={{fontSize:"2vw"}}/>
+              <CloudIcon className='headerIcon'/>
             
-              <Typography variant="h6" sx={{marginLeft:"0.5vw"}}>
+              <Typography variant="h6" className='headerTitle' sx={{marginLeft:"0.5vw"}}>
                 WeatherApp
               </Typography>
             </IconButton>
           </Box>
 
-          <Box sx={{display:"flex"}}>
-            <Button component={Link} to={ROUTS.INDEX} variant="outlined"  color="inherit">Home</Button>
-            <Button component={Link} to={ROUTS.FAVORITE} variant="outlined"  color="inherit">Favorites</Button>
+          <Box sx={{display:"flex",alignItems:"center"}}>
+
+            <Button className='muiButton' component={Link} to={ROUTS.INDEX} variant="outlined"  color="inherit" >Home</Button>
+
+            <Button className='muiButton' component={Link} to={ROUTS.FAVORITE} variant="outlined"  color="inherit">Favorites</Button>
+
             <Box sx={{display:"flex",alignItems:"center"}}>
               <Switch checked={dark} onChange={toggleDarkMode}/>
               {dark?<DarkModeIcon/>:<LightModeIcon sx={{color:"yellow"}}/>}

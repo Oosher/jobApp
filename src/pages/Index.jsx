@@ -14,7 +14,7 @@ export default function Index() {
   const [currentWeather,setCurrentWeather] = useState({});
   const [fiveDaysForecast,setFiveDaysForecast] = useState([]);
   const [isFavorite,setIsFavorite] = useState(false);
-  console.log(search);
+
   const {likedLocations, updateLikedLocations,imageGen} = useLocationService();
   
     useEffect(()=>{

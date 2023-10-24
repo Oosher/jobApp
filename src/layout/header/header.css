@@ -1,0 +1,30 @@
+.headerIcon{
+
+    font-size:  3vw;
+
+}
+
+.headerTitle{
+
+    margin-left: 0.5vw;
+
+}
+
+
+@media (max-width:700px){
+    .muiButton{
+        width: fit-content;
+        height: fit-content;
+        font-size: 0.8rem;
+        padding: 3px;
+    }
+    .headerIcon{
+        font-size: 1.8rem;
+    }
+    
+    .headerTitle{
+
+        font-size: 1rem;
+    
+    }
+}
