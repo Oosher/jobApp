@@ -11,21 +11,21 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { Link } from 'react-router-dom';
 import ROUTS from '../../routes/Routs';
 import CloudIcon from '@mui/icons-material/Cloud';
-import "./header.css";
+import "./header.css"
 export default function Header() {
 
 
-  const {dark,toggleDarkMode} =useTheme();
+  const {dark,toggleDarkMode} = useTheme();
 
   return (
    
-      <AppBar color="primary" sx={{position:"relative",margin: "0" ,boxSizing:" border-box"}}>
-        <Toolbar sx={{display:"flex",justifyContent:"space-between"}}>
+      <AppBar color="primary" className="appBar">
+        <Toolbar className="toolBar" >
           <Box sx={{display:"flex"}}>
             <IconButton component={Link} to={ROUTS.INDEX} sx={{borderRadius:"20px"}}>
-              <CloudIcon className='headerIcon'/>
+              <CloudIcon className='headerIcon' />
             
-              <Typography variant="h6" className='headerTitle' sx={{marginLeft:"0.5vw"}}>
+              <Typography variant="h6" className='headerTitle' >
                 WeatherApp
               </Typography>
             </IconButton>
