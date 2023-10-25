@@ -4,7 +4,7 @@ import axios from "axios"
 
 export const getAutoCompleatData = async(userInput)=>{
     try{
-        const res = await axios.get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&q=${userInput}`);
+        const res = await axios.get(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&q=${userInput}`);
 
 
         return res;
@@ -22,7 +22,7 @@ export const getAutoCompleatData = async(userInput)=>{
 export const getCurrentWeather = async (countryKey) =>{
 
     try{
-        const res = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${countryKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse`);
+        const res = await axios.get(`https://dataservice.accuweather.com/currentconditions/v1/${countryKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse`);
 
         return res.data;
     }
@@ -43,7 +43,7 @@ export const getCurrentWeather = async (countryKey) =>{
 export const getFiveDaysForecast = async (locationKey) =>{
 
     try{
-        const res = await axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&metric=true`);
+        const res = await axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&metric=true`);
 
         return res?.data?.DailyForecasts;
     }
