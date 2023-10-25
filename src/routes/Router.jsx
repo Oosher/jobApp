@@ -16,11 +16,12 @@ import ErrorPage from '../pages/ErrorPage.jsx';
 
 export default function Router() {
     return (
-      <Routes>
-        <Route path={ROUTS.INDEX} element={<Index />} index />
-        <Route path={ROUTS.FAVORITE} element={<Favorites />}  />
-        <Route path={"*"} element={<ErrorPage />}  />
-       
-      </Routes>
+    
+        <Routes>
+          <Route path={ROUTS.INDEX} element={<Index />} index />
+          <Route path={ROUTS.FAVORITE} element={<Favorites />}  />
+          <Route path={"*"} element={<ErrorPage />}  />
+        </Routes>
+     
     );
 }
