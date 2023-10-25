@@ -31,8 +31,8 @@ export default function LocationProvider({children}) {
             },(err)=>toast.error(err.message))
             
             const countryData =  await getCountryByGeolocation(geolocation?.latitude.toFixed(1),geolocation?.longitude.toFixed(1));
-            console.log(countryData);
-            if (countryData.Country.LocalizedName && countryData.Key) {
+            console.log(await countryData);
+            if (countryData) {
                 setSearch({label:await countryData?.Country?.LocalizedName,locationKey:await countryData?.Key});
             }
             
