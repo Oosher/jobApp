@@ -40,10 +40,10 @@ export const getCurrentWeather = async (countryKey) =>{
 
 
 
-export const getFiveDaysForecast = async (locationKey) =>{
+export const getFiveDaysForecast = async (locationKey,metric) =>{
 
     try{
-        const res = await axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&metric=true`);
+        const res = await axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&metric=${metric}`);
 
         return res?.data?.DailyForecasts;
     }

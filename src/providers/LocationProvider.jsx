@@ -13,8 +13,15 @@ const LocationContext = createContext();
 export default function LocationProvider({children}) {
 
     const [likedLocations , setLikedLocations] = useState(null);
-
+    const [isCelsius , setIsCelsius] = useState(true);
     
+
+    const toggleCelsius =useCallback(()=>{
+
+
+        setIsCelsius((prev)=>!prev);
+
+    },[])
 
     const fixWeatherIcon = (imageIcon)=>{
     
@@ -61,10 +68,10 @@ export default function LocationProvider({children}) {
 
 
     
-    const value = useMemo(()=>({likedLocations}),[likedLocations])
+    const value = useMemo(()=>({likedLocations,isCelsius}),[likedLocations,isCelsius])
 
   return (
-    <LocationContext.Provider value={{...value,updateLikedLocations,imageGen}}>
+    <LocationContext.Provider value={{...value,updateLikedLocations,imageGen,toggleCelsius}}>
         {children}
     </LocationContext.Provider>
   )

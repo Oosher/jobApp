@@ -8,7 +8,7 @@ import { removeLikedLocation } from '../localStorageService/localStorageService'
 
 export default function Favorites() {
 
-    const {likedLocations,imageGen,updateLikedLocations} = useLocationService(); 
+    const {likedLocations,imageGen,updateLikedLocations,isCelsius} = useLocationService(); 
 
 
     const removeFromFavorites = async (locationName) => {
@@ -38,7 +38,7 @@ export default function Favorites() {
 
                         <CardMedia component="img"  src={imageGen(location.WeatherIcon)} />
                         <Typography variant="body1" color="initial" textAlign="center">{location.WeatherText}</Typography>
-                        <Typography variant="body1" color="initial" textAlign="center">{Math.floor(location.Temperature.Metric.Value)}&deg;{location.Temperature.Metric.Unit}</Typography>
+                        <Typography variant="body1" color="initial" textAlign="center">{Math.floor(isCelsius?location.Temperature.Metric.Value:location.Temperature.Imperial.Value)}&deg;{isCelsius?location.Temperature.Metric.Unit:location.Temperature.Imperial.Unit}</Typography>
 
                     </Paper>
                 </Grid>   

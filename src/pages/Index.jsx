@@ -15,13 +15,13 @@ export default function Index() {
   const [fiveDaysForecast,setFiveDaysForecast] = useState([]);
   const [isFavorite,setIsFavorite] = useState(false);
 
-  const {likedLocations, updateLikedLocations,imageGen} = useLocationService();
-  
+  const {likedLocations, updateLikedLocations,imageGen,isCelsius} = useLocationService();
+
     useEffect(()=>{
       getCurrentWeather(search?.locationKey).then((res)=>setCurrentWeather(res?.[0])) 
 
-      getFiveDaysForecast(search?.locationKey).then((res)=>setFiveDaysForecast(res));
-    },[search.locationKey])
+      getFiveDaysForecast(search?.locationKey,isCelsius).then((res)=>setFiveDaysForecast(res));
+    },[search.locationKey,isCelsius])
 
     useEffect(()=>{
 
@@ -116,7 +116,7 @@ export default function Index() {
               <Box sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <CardMedia component="img" sx={{width:"20vw"}} title={currentWeather?.WeatherText} image={imageGen(currentWeather?.WeatherIcon)} />
                 <Box >
-                  <Typography variant="h4" color="initial">{currentWeather?.Temperature?.Metric.Value} {currentWeather?.Temperature?.Metric.Unit}</Typography>
+                  <Typography variant="h4" color="initial">{isCelsius?currentWeather?.Temperature?.Metric.Value:currentWeather?.Temperature?.Imperial.Value} &deg;{isCelsius?currentWeather?.Temperature?.Metric.Unit:currentWeather?.Temperature?.Imperial.Unit}</Typography>
                   <Typography variant="h4" color="initial">{currentWeather?.WeatherText}</Typography>
                 </Box>
               </Box>
