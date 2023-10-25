@@ -9,7 +9,7 @@ import LocationProvider from './providers/LocationProvider';
 function App() {
   return (
    
-    <BrowserRouter>
+    <BrowserRouter basename='/jobApp'>
       <ThemeProvider>
         <LocationProvider>
           <Layout>

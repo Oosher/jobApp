@@ -22,6 +22,6 @@ export default function Router() {
           <Route path={ROUTS.FAVORITE} element={<Favorites />}  />
           <Route path={"*"} element={<ErrorPage />}  />
         </Routes>
-     
+
     );
 }
