@@ -32,7 +32,7 @@ export default function LocationProvider({children}) {
             
             const countryData =  await getCountryByGeolocation(geolocation?.latitude.toFixed(1),geolocation?.longitude.toFixed(1));
             
-            setSearch({label:countryData.Country.LocalizedName,locationKey:countryData?.Key})
+            setSearch({label:countryData?.Country?.LocalizedName,locationKey:countryData?.Key})
             
         }
     }
