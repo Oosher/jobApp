@@ -60,3 +60,19 @@ export const getFiveDaysForecast = async (locationKey,metric) =>{
 }
 
 
+export const getCountryByGeolocation = async (long,lat)=>{
+
+    try{
+
+        const res = await axios.get(`http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=s470nhTGUgkl9Dv0esPxppAE3qo2AOse&q=${long}%2C${lat}`);
+
+        return res.data;
+
+    }catch(err){
+
+        toast.error(err.message);
+
+    }
+
+
+}

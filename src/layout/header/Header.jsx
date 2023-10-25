@@ -13,13 +13,15 @@ import ROUTS from '../../routes/Routs';
 import CloudIcon from '@mui/icons-material/Cloud';
 import "./header.css"
 import { useLocationService } from '../../providers/LocationProvider';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+
 export default function Header() {
 
 
   const {dark,toggleDarkMode} = useTheme();
 
 
-  const {isCelsius,toggleCelsius}= useLocationService();
+  const {isCelsius,toggleCelsius,getGeolocation}= useLocationService();
 
   return (
 
@@ -35,7 +37,9 @@ export default function Header() {
           </Box>
 
           <Box sx={{display:"flex",alignItems:"center"}}>
-
+            <IconButton onClick={getGeolocation}>
+                <LocationOnIcon/>
+            </IconButton>
             <Button className='muiButton' component={Link} to={ROUTS.INDEX} variant="outlined"  color="inherit" >Home</Button>
 
             <Button className='muiButton' component={Link} to={ROUTS.FAVORITE} variant="outlined"  color="inherit">Favorites</Button>

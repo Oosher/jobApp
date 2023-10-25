@@ -12,13 +12,13 @@ import { useTheme } from '../theme/ThemeProvider';
 
 export default function Index() {
   
-  const [search,setSearch] = useState({label:"Tel Aviv",locationKey:"215854"});
+  
   const [locations , setLocations] = useState([]);
   const [currentWeather,setCurrentWeather] = useState({});
   const [fiveDaysForecast,setFiveDaysForecast] = useState([]);
   const [isFavorite,setIsFavorite] = useState(false);
 
-  const {likedLocations, updateLikedLocations,imageGen,isCelsius} = useLocationService();
+  const {likedLocations, updateLikedLocations,imageGen,isCelsius,search,setSearch} = useLocationService();
 
   const {dark} = useTheme();
 
