@@ -5,6 +5,8 @@ import Router from './routes/Router';
 import Layout from './layout/Layout';
 import ThemeProvider from './theme/ThemeProvider';
 import LocationProvider from './providers/LocationProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
             <Router/>
           </Layout>
         </LocationProvider>
+        <ToastContainer/>
       </ThemeProvider>
     </BrowserRouter>
   );

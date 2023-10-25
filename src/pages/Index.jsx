@@ -6,6 +6,9 @@ import { getAutoCompleatData, getCurrentWeather, getFiveDaysForecast } from '../
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useLocationService } from '../providers/LocationProvider';
 import { removeLikedLocation, saveLikedLocationsToLocalStorage } from '../localStorageService/localStorageService';
+import { toast } from 'react-toastify';
+import { useTheme } from '../theme/ThemeProvider';
+
 
 export default function Index() {
   
@@ -16,6 +19,8 @@ export default function Index() {
   const [isFavorite,setIsFavorite] = useState(false);
 
   const {likedLocations, updateLikedLocations,imageGen,isCelsius} = useLocationService();
+
+  const {dark} = useTheme();
 
     useEffect(()=>{
       getCurrentWeather(search?.locationKey).then((res)=>setCurrentWeather(res?.[0])) 
@@ -74,6 +79,8 @@ export default function Index() {
         setIsFavorite(false);
 
         await updateLikedLocations();
+
+        toast("The location has been removed your favorites")
         
       }else{
 
@@ -82,6 +89,8 @@ export default function Index() {
         setIsFavorite(true);
 
         await updateLikedLocations();
+
+        toast("The location has been added to your favorites")
 
       }
 
@@ -112,12 +121,12 @@ export default function Index() {
         <Grid container gap={1}  justifyContent="center">
           <Grid item xs={12} >
             <Paper sx={{display:"flex",alignItems:"center",flexDirection:"column" ,padding:"15px",justifyContent:"center",alignContent:"center",justifyItems:"center"}}>
-              <Typography variant="h4" color="initial">{search?.label}</Typography>
+              <Typography variant="h4" color={dark?"white":"initial"}>{search?.label}</Typography>
               <Box sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <CardMedia component="img" sx={{width:"20vw"}} title={currentWeather?.WeatherText} image={imageGen(currentWeather?.WeatherIcon)} />
                 <Box >
-                  <Typography variant="h4" color="initial">{isCelsius?currentWeather?.Temperature?.Metric.Value:currentWeather?.Temperature?.Imperial.Value} &deg;{isCelsius?currentWeather?.Temperature?.Metric.Unit:currentWeather?.Temperature?.Imperial.Unit}</Typography>
-                  <Typography variant="h4" color="initial">{currentWeather?.WeatherText}</Typography>
+                  <Typography variant="h4" color={dark?"white":"initial"}>{isCelsius?currentWeather?.Temperature?.Metric.Value:currentWeather?.Temperature?.Imperial.Value} &deg;{isCelsius?currentWeather?.Temperature?.Metric.Unit:currentWeather?.Temperature?.Imperial.Unit}</Typography>
+                  <Typography variant="h4" color={dark?"white":"initial"}>{currentWeather?.WeatherText}</Typography>
                 </Box>
               </Box>
               <Box sx={{display:"flex",width:"100%",justifyContent:"flex-end"}}>
@@ -132,7 +141,7 @@ export default function Index() {
             <Paper sx={{display:"flex",justifyContent:"center",alignItems:"center", margin:"0 auto",height:"10vh",padding:"15px"}} >
             <CardMedia component="img" sx={{width:"50%"}} title={day?.Day?.IconPhrase} image={imageGen(day?.Day?.Icon)} />
 
-            <Typography variant="h5" color="initial">{Math.floor(day?.Temperature.Maximum.Value)}/{Math.floor(day?.Temperature.Minimum.Value)}&deg;{day?.Temperature.Minimum.Unit}</Typography>
+            <Typography variant="h5" color={dark?"white":"initial"}>{Math.floor(day?.Temperature.Maximum.Value)}/{Math.floor(day?.Temperature.Minimum.Value)}&deg;{day?.Temperature.Minimum.Unit}</Typography>
             </Paper>
             </Grid> )}
 

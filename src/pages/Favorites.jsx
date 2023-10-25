@@ -4,11 +4,14 @@ import React from 'react'
 import { useLocationService } from '../providers/LocationProvider'
 import { CardMedia, Container, Grid, IconButton, Paper, Typography } from '@mui/material';
 import { removeLikedLocation } from '../localStorageService/localStorageService';
+import { useTheme } from '../theme/ThemeProvider';
 
 
 export default function Favorites() {
 
-    const {likedLocations,imageGen,updateLikedLocations,isCelsius} = useLocationService(); 
+    const {likedLocations,imageGen,updateLikedLocations,isCelsius} = useLocationService();      
+
+    const {dark} = useTheme();
 
 
     const removeFromFavorites = async (locationName) => {
@@ -34,11 +37,11 @@ export default function Favorites() {
                         <IconButton sx={{":hover":{color:"red"}}} onClick={()=>removeFromFavorites(location.name)}>
                             X
                         </IconButton>
-                        <Typography variant="body1" color="initial" textAlign="center">{location.name}</Typography>
+                        <Typography variant="body1" color={dark?"white":"initial"} textAlign="center">{location.name}</Typography>
 
                         <CardMedia component="img"  src={imageGen(location.WeatherIcon)} />
-                        <Typography variant="body1" color="initial" textAlign="center">{location.WeatherText}</Typography>
-                        <Typography variant="body1" color="initial" textAlign="center">{Math.floor(isCelsius?location.Temperature.Metric.Value:location.Temperature.Imperial.Value)}&deg;{isCelsius?location.Temperature.Metric.Unit:location.Temperature.Imperial.Unit}</Typography>
+                        <Typography variant="body1" color={dark?"white":"initial"} textAlign="center">{location.WeatherText}</Typography>
+                        <Typography variant="body1" color={dark?"white":"initial"} textAlign="center">{Math.floor(isCelsius?location.Temperature.Metric.Value:location.Temperature.Imperial.Value)}&deg;{isCelsius?location.Temperature.Metric.Unit:location.Temperature.Imperial.Unit}</Typography>
 
                     </Paper>
                 </Grid>   

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { toast } from "react-toastify";
 
 
 
@@ -12,7 +13,8 @@ export const getAutoCompleatData = async(userInput)=>{
 
     catch(err)
     {
-        console.log(err)
+        console.log(err);
+        toast.error(err.message);
     }
 
 }
@@ -28,6 +30,7 @@ export const getCurrentWeather = async (countryKey) =>{
     }
     catch(err){
         console.log(err);
+        toast.error(err.message);
     }
 
 
@@ -50,6 +53,7 @@ export const getFiveDaysForecast = async (locationKey,metric) =>{
     catch(err){
         
         console.log(err);
+        toast.error(err.message);
     }
 
 
