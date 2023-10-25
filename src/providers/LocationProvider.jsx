@@ -16,30 +16,41 @@ export default function LocationProvider({children}) {
 
     const [likedLocations , setLikedLocations] = useState(null);
     const [isCelsius , setIsCelsius] = useState(true);
-    const [geolocation,setGeolocation] = useState(null);
+   /*  const [geolocation,setGeolocation] = useState(null); */
     const [search,setSearch] = useState({label:"Tel Aviv",locationKey:"215854"});
 
+    function getLocation() {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+      }
+
     const getGeolocation = useCallback( async ()=>{
-        if (!navigator.geolocation) {
-            toast.error("Geolocation is not supported by your browser");
-        }else{
-            await navigator.geolocation.getCurrentPosition((position)=>{
 
-                setGeolocation(position.coords)
-                toast.success("Geolocation has been successfully changed")
+        try{
 
-            },(err)=>toast.error(err.message))
-            
-            const countryData =  await getCountryByGeolocation(geolocation?.latitude.toFixed(1),geolocation?.longitude.toFixed(1));
-            console.log(await countryData);
-            if (countryData) {
-                setSearch({label:await countryData?.Country?.LocalizedName,locationKey:await countryData?.Key});
+            if (!navigator.geolocation) {
+
+                toast.error("Geolocation is not supported by your browser");
+
+            }else{
+                const {coords} = await getLocation();
+                toast.success("Geolocation has been successfully changed");
+                
+                const countryData =  await getCountryByGeolocation(coords?.latitude.toFixed(1),coords?.longitude.toFixed(1));
+                
+                if (countryData) {
+                    setSearch({label:await countryData?.Country?.LocalizedName,locationKey:await countryData?.Key});
+                }
+                
+                
             }
-            
-            
+        }catch(err){
+            toast.error(err.message)
         }
     }
-    ,[geolocation])
+
+    ,[])
 
 
     const toggleCelsius =useCallback(()=>{
