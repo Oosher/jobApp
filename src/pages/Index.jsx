@@ -18,7 +18,7 @@ export default function Index() {
   const [fiveDaysForecast,setFiveDaysForecast] = useState([]);
   const [isFavorite,setIsFavorite] = useState(false);
 
-  const {likedLocations, updateLikedLocations,imageGen,isCelsius,search,setSearch} = useLocationService();
+  const {likedLocations, updateLikedLocations,imageGen,isCelsius,search,setSearch,dateToDay} = useLocationService();
 
   const {dark} = useTheme();
 
@@ -138,10 +138,14 @@ export default function Index() {
           </Grid>
 
           {fiveDaysForecast?.map((day)=><Grid item xs={12} md={3} key={day?.Date}>
-            <Paper sx={{display:"flex",justifyContent:"center",alignItems:"center", margin:"0 auto",height:"10vh",padding:"15px"}} >
-            <CardMedia component="img" sx={{width:"50%"}} title={day?.Day?.IconPhrase} image={imageGen(day?.Day?.Icon)} />
+            <Paper sx={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center", margin:"0 auto",height:"10vh",padding:"15px"}} >
+              <Typography variant="h6" color={dark?"white":"initial"}>{dateToDay(day?.Date)}</Typography>
+            <Box display="flex" alignItems="center">
 
-            <Typography variant="h5" color={dark?"white":"initial"}>{Math.floor(day?.Temperature.Maximum.Value)}/{Math.floor(day?.Temperature.Minimum.Value)}&deg;{day?.Temperature.Minimum.Unit}</Typography>
+              <CardMedia component="img" sx={{width:"50%"}} title={day?.Day?.IconPhrase} image={imageGen(day?.Day?.Icon)} />
+
+              <Typography variant="h5" color={dark?"white":"initial"}>{Math.floor(day?.Temperature.Maximum.Value)}/{Math.floor(day?.Temperature.Minimum.Value)}&deg;{day?.Temperature.Minimum.Unit}</Typography>
+            </Box>
             </Paper>
             </Grid> )}
 

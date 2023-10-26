@@ -16,14 +16,13 @@ export default function LocationProvider({children}) {
 
     const [likedLocations , setLikedLocations] = useState(null);
     const [isCelsius , setIsCelsius] = useState(true);
-   /*  const [geolocation,setGeolocation] = useState(null); */
     const [search,setSearch] = useState({label:"Tel Aviv",locationKey:"215854"});
 
     function getLocation() {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
-      }
+    }
 
     const getGeolocation = useCallback( async ()=>{
 
@@ -69,6 +68,16 @@ export default function LocationProvider({children}) {
         }
     }
 
+    const dateToDay = useCallback((date)=>{
+
+        const newDate = new Date(date);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        
+        return days[newDate.getDay()];
+
+
+    },[])
 
     const imageGen = useCallback((imageIcon)=> `https://developer.accuweather.com/sites/default/files/${ fixWeatherIcon(imageIcon)}-s.png`
     ,[])
@@ -107,7 +116,7 @@ export default function LocationProvider({children}) {
     const value = useMemo(()=>({likedLocations,isCelsius,search,setSearch}),[likedLocations,isCelsius,search,setSearch])
 
   return (
-    <LocationContext.Provider value={{...value,updateLikedLocations,imageGen,toggleCelsius,getGeolocation}}>
+    <LocationContext.Provider value={{...value,updateLikedLocations,imageGen,toggleCelsius,getGeolocation,dateToDay}}>
         {children}
     </LocationContext.Provider>
   )
