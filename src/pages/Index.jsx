@@ -36,7 +36,7 @@ export default function Index() {
 
     },[likedLocations,search?.label]);
 
-
+console.log(fiveDaysForecast);
     const getAutocompleteFromUserInput = async ({target})=>{
 
         if (target.value.length>0) {
@@ -117,8 +117,8 @@ export default function Index() {
           />
         )}   
       />
-      <Paper >
-        <Grid container gap={1}  justifyContent="center">
+      <Paper sx={{bgcolor:dark?"darkgray":"white"}}>
+        <Grid container justifyContent="center" gap={0.8}>
           <Grid item xs={12} >
             <Paper sx={{display:"flex",alignItems:"center",flexDirection:"column" ,padding:"15px",justifyContent:"center",alignContent:"center",justifyItems:"center"}}>
               <Typography variant="h4" color={dark?"white":"initial"}>{search?.label}</Typography>
