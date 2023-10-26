@@ -36,7 +36,7 @@ export default function Index() {
 
     },[likedLocations,search?.label]);
 
-console.log(fiveDaysForecast);
+    
     const getAutocompleteFromUserInput = async ({target})=>{
 
         if (target.value.length>0) {
