@@ -6,7 +6,7 @@
 
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { getLikedLocations } from '../localStorageService/localStorageService';
+import { getLikedLocations, saveToggles } from '../localStorageService/localStorageService';
 import { toast } from 'react-toastify';
 import { getCountryByGeolocation } from '../requstService/requstService';
 
@@ -56,7 +56,9 @@ export default function LocationProvider({children}) {
 
         setIsCelsius((prev)=>!prev);
 
-    },[])
+        saveToggles(!isCelsius,null);
+
+    },[isCelsius])
 
     const fixWeatherIcon = (imageIcon)=>{
     
@@ -113,7 +115,7 @@ export default function LocationProvider({children}) {
 
 
     
-    const value = useMemo(()=>({likedLocations,isCelsius,search,setSearch}),[likedLocations,isCelsius,search,setSearch])
+    const value = useMemo(()=>({likedLocations,isCelsius,search,setSearch,setIsCelsius}),[likedLocations,isCelsius,search,setSearch,setIsCelsius])
 
   return (
     <LocationContext.Provider value={{...value,updateLikedLocations,imageGen,toggleCelsius,getGeolocation,dateToDay}}>

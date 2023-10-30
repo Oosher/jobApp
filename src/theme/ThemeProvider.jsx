@@ -7,6 +7,7 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 
 import createTheme from '@mui/material/styles/createTheme';
 import   {ThemeProvider as MuiThemeProvider} from "@mui/system";
+import { saveToggles } from '../localStorageService/localStorageService';
 
 const ThemeContext = createContext();
 
@@ -20,14 +21,23 @@ export default function ThemeProvider({children}) {
     });
 
 
-    const toggleDarkMode = useCallback(()=>{
+
+    const toggleDarkMode = useCallback(async()=>{
         setDark((prev)=>!prev);
-    },[setDark])
+
+        await saveToggles(null,!dark);
+
+    },[setDark,dark])
+    
+
+
 
 
     const value = useMemo(
-        ()=>({dark,toggleDarkMode}),
-        [dark,toggleDarkMode]);
+        ()=>({dark,toggleDarkMode,setDark}),
+        [dark,toggleDarkMode,setDark]);
+
+
     return (
         
         <MuiThemeProvider theme={theme}>

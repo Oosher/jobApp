@@ -4,7 +4,7 @@
 
 
 import { AppBar, Box, Button, IconButton, Switch, Toolbar, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTheme } from '../../theme/ThemeProvider'
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -14,14 +14,31 @@ import CloudIcon from '@mui/icons-material/Cloud';
 import "./header.css"
 import { useLocationService } from '../../providers/LocationProvider';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { getToggles } from '../../localStorageService/localStorageService';
 
 export default function Header() {
 
 
-  const {dark,toggleDarkMode} = useTheme();
+  const {dark,toggleDarkMode,setDark} = useTheme();
 
 
-  const {isCelsius,toggleCelsius,getGeolocation}= useLocationService();
+  const {isCelsius,toggleCelsius,getGeolocation,setIsCelsius}= useLocationService();
+
+  useEffect(()=>{
+
+      getToggles().then((res)=>{
+        if (!res?.isCelsius) {
+          setIsCelsius(false);
+        }
+        if (res?.dark) {
+
+          setDark(true);
+          
+        }
+      })
+
+  
+  },[setIsCelsius,setDark])
 
   return (
 

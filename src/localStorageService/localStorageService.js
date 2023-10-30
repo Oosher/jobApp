@@ -41,3 +41,34 @@ export const removeLikedLocation =async (locationName) =>{
 
 
 
+
+export const saveToggles  = async (isCelsius,dark)=>{
+
+    let toggles =await getToggles();;
+
+    if (!toggles) {
+        toggles = {};
+    } 
+
+    if (typeof isCelsius === "boolean") {
+
+        toggles.isCelsius=isCelsius;
+
+        
+    }
+
+
+    if (typeof dark=== "boolean") {
+
+        toggles.dark=dark
+        
+    }
+
+
+    await localStorage.setItem("toggles",JSON.stringify(toggles))
+
+} 
+
+
+
+export const getToggles = async ()=>JSON.parse(localStorage.getItem("toggles"));
